@@ -28,6 +28,43 @@ class SuperHeroRepository extends IRepository {
         */
   }
 
+
+  
+
+  // SPRINT 3 TP 1 //
+  // CREAR E INSERTA SUPERHEROE //
+  async insertarSuperheroe(datosSuperheroe) {
+    console.log("Insertando en la base de datos:", datosSuperheroe);
+    const nuevoHeroe = new SuperHero(datosSuperheroe);
+    return await nuevoHeroe.save();
+  }
+
+  // ACTUALIZA UN SUPERHEROE //
+  async actualizarSuperheroe(id, datosActualizar) {
+    const heroeActualizado = await SuperHero.findByIdAndUpdate(
+      id,
+      datosActualizar,
+      { new: true }
+    );
+    console.log(heroeActualizado);
+    return heroeActualizado;
+  }
+  // ELIMINA UN SUPERHEROE POR ID //
+  async eliminarSuperheroePorId(id) {
+    const heroeEliminado = await SuperHero.findByIdAndDelete(id);
+    if (!heroeEliminado) {
+      throw new Error(`No se encontró un superhéroe con el ID: ${id}`);
+    }
+    console.log("Superhéroe eliminado:", heroeEliminado);
+    return heroeEliminado;
+  }
+
+  async eliminarPorNombre(nombre) {
+    const heroeEliminado = SuperHero.findOneAndDelete({ nombreSuperHeroe });
+    console.log(heroeEliminado);
+    return heroeEliminado;
+  }
+
 }
 
 export default new SuperHeroRepository();
