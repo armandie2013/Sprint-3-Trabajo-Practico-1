@@ -28,9 +28,6 @@ class SuperHeroRepository extends IRepository {
         */
   }
 
-
-  
-
   // SPRINT 3 TP 1 //
   // CREAR E INSERTA SUPERHEROE //
   async insertarSuperheroe(datosSuperheroe) {
@@ -60,11 +57,12 @@ class SuperHeroRepository extends IRepository {
   }
 
   async eliminarPorNombre(nombre) {
-    const heroeEliminado = SuperHero.findOneAndDelete({ nombreSuperHeroe });
+    const heroeEliminado = SuperHero.findOneAndDelete({
+      nombreSuperHeroe: nombre,
+    });
     console.log(heroeEliminado);
     return heroeEliminado;
   }
-
 }
 
 export default new SuperHeroRepository();

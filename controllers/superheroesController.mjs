@@ -6,7 +6,7 @@ import {
   crearNuevoSuperheroe,
   actualizarSuperheroe,
   eliminarSuperheroePorId,
-  eliminarSuperheroePorNombre
+  eliminarSuperheroePorNombre,
 } from "../services/superheroesService.mjs";
 import {
   renderizarSuperheroe,
@@ -139,7 +139,30 @@ export async function eliminarSuperheroePorIdController(req, res) {
     const { id } = req.params;
     const superheroeEliminado = await eliminarSuperheroePorId(id);
     if (!superheroeEliminado) {
-      return res.status(404).send({ mensaje: "Id de superheroe no encontrado" });
+      return res
+        .status(404)
+        .send({ mensaje: "Id de superheroe no encontrado" });
+    }
+    const superheroeFormateado = renderizarSuperheroe(superheroeEliminado);
+    res.status(200).json(superheroeFormateado);
+  } catch (error) {
+    res.status(500).send({
+      mensaje: "Error al eliminar el superheroe por ID",
+      error: error.message,
+    });
+  }
+}
+
+// ELIMINAR POR NOMBRE //
+
+export async function eliminarSuperheroePorNombreController(req, res) {
+  try {
+    const { nombre } = req.params;
+    const superheroeEliminado = await eliminarSuperheroePorNombre(nombre);
+    if (!superheroeEliminado) {
+      return res
+        .status(404)
+        .send({ mensaje: "Nombre de superheroe no encontrado" });
     }
     const superheroeFormateado = renderizarSuperheroe(superheroeEliminado);
     res.status(200).json(superheroeFormateado);
@@ -147,12 +170,8 @@ export async function eliminarSuperheroePorIdController(req, res) {
     res
       .status(500)
       .send({
-        mensaje: "Error al eliminar el superheroe por ID",
+        mensaje: "Error al eliminar el superheroe por nombre",
         error: error.message,
       });
   }
 }
-
-// ELIMINAR POR NOMBRE //
-
-
